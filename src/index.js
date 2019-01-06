@@ -61,10 +61,14 @@ function Game() {
   const winner = calculateWinner(current);
   const moves = history.map((step, move) => {
     const btnDesc = move ? `Go to move #${move}` : `Go to game start`;
+    let currentStyle;
+    stepNumber === move
+      ? (currentStyle = { fontWeight: "bold" })
+      : (currentStyle = { fontWeight: "normal" });
 
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{btnDesc}</button>
+        <button onClick={() => jumpTo(move)} style={currentStyle}>{btnDesc}</button>
       </li>
     );
   });
