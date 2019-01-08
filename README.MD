@@ -1,4 +1,4 @@
-# react - tic - tac - toe
+# react-tic-tac-toe
 Created with CodeSandbox
 
 Recreated the reacts tutorial using hooks
