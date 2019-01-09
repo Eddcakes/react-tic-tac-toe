@@ -56,11 +56,26 @@ function Game() {
     //if number we are changing to is even then x is next
     setXIsNext(step % 2 === 0);
   };
+  let coord;
+  if (history.length > 1) {
+    let his1 = history[history.length - 1]
+    let his2 = history[history.length - 2]
+    let newArr = []
+    for (let i = 0; i < his1.length; i++){
+      if (his1[i] === his2[i]){
+        newArr[i] = null
+      }else{
+        newArr[i] = his1[i]
+      }
+    }
+    coord = calculateCoord(newArr)
+  }
+  //console.log(coord)
   const current = history[stepNumber];
-
   const winner = calculateWinner(current);
   const moves = history.map((step, move) => {
-    const btnDesc = move ? `Go to move #${move}` : `Go to game start`;
+    console.log(history[move])
+    const btnDesc = move ? `Go to move #${move} Coords: ${coord}` : `Go to game start`;
     let currentStyle;
     stepNumber === move
       ? (currentStyle = { fontWeight: "bold" })
@@ -114,6 +129,22 @@ function calculateWinner(squares) {
   return null;
 }
 
+function calculateCoord(arr) {
+  const size = 3
+  let count = 0
+  let location = []
+  for (let i = 0; i < size; i++) {
+      arr[i] = []
+    for (let j = 0; j < size; j++, count++) {
+    //console.log(`i: ${i}, j: ${j}`)
+        arr[i][j] = arr[count]
+        if (arr[count] !== null){
+          location = [i+1,j+1]
+        }
+    }
+  }
+    return location
+}
 // ========================================
 
 ReactDOM.render(<Game />, document.getElementById("root"));
