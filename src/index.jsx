@@ -39,43 +39,35 @@ function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [stepNumber, setStepNumber] = useState(0);
   const [xIsNext, setXIsNext] = useState(true);
+  const [coordinate, setCoordinate] = useState([Array(2).fill(null)])
   const handleClick = i => {
     if (calculateWinner(current) || current[i]) {
       //if winner then do not allow anymore play
       //current[i] is here to prevent overwriting squares
       return;
     }
-    const sq = current.slice();
-    sq[i] = xIsNext ? "X" : "O";
-    setHistory(history.slice(0, stepNumber + 1).concat([sq]));
+    const curBoard = current.slice();
+    curBoard[i] = xIsNext ? "X" : "O";
+    setHistory(history.slice(0, stepNumber + 1).concat([curBoard]));
     setStepNumber(stepNumber + 1);
     setXIsNext(!xIsNext);
+    let lastBoard = history[history.length - 1]
+    let theMove = curBoard.map( (value, i) => {
+      //find difference between current board and last board if different save else replace with null
+      curBoard[i] === lastBoard[i] ? value = null : value = curBoard[i]
+      return value
+    })
+    setCoordinate([...coordinate.slice(0, stepNumber + 1), calculateCoord(theMove)])
   };
   const jumpTo = step => {
     setStepNumber(step);
-    //if number we are changing to is even then x is next
+    //if the number we are changing to is even then x is next
     setXIsNext(step % 2 === 0);
   };
-  let coord;
-  if (history.length > 1) {
-    let his1 = history[history.length - 1]
-    let his2 = history[history.length - 2]
-    let newArr = []
-    for (let i = 0; i < his1.length; i++){
-      if (his1[i] === his2[i]){
-        newArr[i] = null
-      }else{
-        newArr[i] = his1[i]
-      }
-    }
-    coord = calculateCoord(newArr)
-  }
-  //console.log(coord)
   const current = history[stepNumber];
   const winner = calculateWinner(current);
   const moves = history.map((step, move) => {
-    console.log(history[move])
-    const btnDesc = move ? `Go to move #${move} Coords: ${coord}` : `Go to game start`;
+    const btnDesc = move ? `Go to move #${move} (${coordinate[move]})` : `Go to game start`;
     let currentStyle;
     stepNumber === move
       ? (currentStyle = { fontWeight: "bold" })
@@ -136,7 +128,6 @@ function calculateCoord(arr) {
   for (let i = 0; i < size; i++) {
       arr[i] = []
     for (let j = 0; j < size; j++, count++) {
-    //console.log(`i: ${i}, j: ${j}`)
         arr[i][j] = arr[count]
         if (arr[count] !== null){
           location = [i+1,j+1]
