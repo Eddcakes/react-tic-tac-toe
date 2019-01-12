@@ -11,11 +11,6 @@ function Square(props) {
 }
 
 function Board(props) {
-  /*
-  const renderSquare = i => (
-    <Square key={3+i} squares={props.squares[i]} onClick={() => props.onClick(i)} />
-  );
-  */
   const renderGameBoard = boardSize =>{
     let row = new Array(boardSize)
     let col = new Array(boardSize)
@@ -23,11 +18,10 @@ function Board(props) {
     col = col.fill(0).map( (x, i) => x = i )
     const board = []
     row.map( rowNum => {
-        board.push(<div key={rowNum} className="board-row"> </div>)
+      board.push(<div key={rowNum} className="board-row"> </div>)
       return col.map( colValue => {
         let rowStart = rowNum * boardSize
         let sqNum = rowStart + colValue
-        //return board.push(renderSquare(rowStart + colValue))
         return board.push( <Square key={3+sqNum} squares={props.squares[sqNum]} onClick={() => props.onClick(sqNum)}/>)
       })
     })
