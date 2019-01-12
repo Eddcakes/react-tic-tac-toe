@@ -11,26 +11,25 @@ function Square(props) {
 }
 
 function Board(props) {
-  const renderSquare = i => (
-    <Square squares={props.squares[i]} onClick={() => props.onClick(i)} />
-  );
+  const renderGameBoard = boardSize =>{
+    let row = new Array(boardSize)
+    let col = new Array(boardSize)
+    row = row.fill(0).map( (x, i) => x = i )
+    col = col.fill(0).map( (x, i) => x = i )
+    const board = []
+    row.map( rowNum => {
+      board.push(<div key={rowNum} className="board-row"> </div>)
+      return col.map( colValue => {
+        let rowStart = rowNum * boardSize
+        let sqNum = rowStart + colValue
+        return board.push( <Square key={3+sqNum} squares={props.squares[sqNum]} onClick={() => props.onClick(sqNum)}/>)
+      })
+    })
+    return board
+  }
   return (
     <div>
-      <div className="board-row">
-        {renderSquare(0)}
-        {renderSquare(1)}
-        {renderSquare(2)}
-      </div>
-      <div className="board-row">
-        {renderSquare(3)}
-        {renderSquare(4)}
-        {renderSquare(5)}
-      </div>
-      <div className="board-row">
-        {renderSquare(6)}
-        {renderSquare(7)}
-        {renderSquare(8)}
-      </div>
+      {renderGameBoard(3)}
     </div>
   );
 }
