@@ -86,7 +86,6 @@ function Game() {
     stepNumber === move
       ? (currentStyle = { fontWeight: "bold" })
       : (currentStyle = { fontWeight: "normal" });
-
     return (
       <li key={"GoTo" + move}>
         <button onClick={() => jumpTo(move)} style={currentStyle}>{btnDesc}</button>
@@ -102,6 +101,15 @@ function Game() {
   }
   const reorder = () => {
     setIsAssending(!isAssending)
+  }
+  let movesByOrder //moves or moves.reverse
+  let isReversed //boolen
+  if (isAssending){
+    movesByOrder = moves
+    isReversed = false
+  }else{
+    movesByOrder = moves.slice().reverse()
+    isReversed = true
   }
   return (
     <div className="game">
@@ -119,7 +127,7 @@ function Game() {
             btnText={isAssending ? "Set decending" : "Set Assending"}
           />
           </div>
-        <ol reversed={isAssending ? false : true}>{isAssending ? moves : moves.slice().reverse()}</ol>
+        <ol reversed={isReversed}>{movesByOrder}</ol>
       </div>
     </div>
   );
