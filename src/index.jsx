@@ -57,9 +57,11 @@ function Game() {
   const current = history[stepNumber];
   const winner = calculateWinner(current);
   const handleClick = i => {
-    if (calculateWinner(current) || current[i]) {
+    if (winner || current[i]) {
       //if winner then do not allow anymore play
       //current[i] is here to prevent overwriting squares
+      
+      //can we add style to current here
       return;
     }
     const curBoard = current.slice();
@@ -145,9 +147,12 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6]
   ];
+  const winningStyle = {backgroundColor: "yellow"}
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      let boardSqs = document.getElementsByClassName('square')
+      lines[i].map( (v) => boardSqs[v].style.background = 'yellow' )
       return squares[a];
     }
   }
