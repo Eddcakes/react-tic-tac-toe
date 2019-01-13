@@ -2,6 +2,14 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./styles.css";
 
+function OrderButton({reorderClick, btnText, ...props}){
+  return (
+    <button onClick={reorderClick}> 
+      {btnText}
+    </button>
+  )
+}
+
 function Square(props) {
   return (
     <button className="square" onClick={props.onClick}>
@@ -22,7 +30,13 @@ function Board(props) {
       return col.map( colValue => {
         let rowStart = rowNum * boardSize
         let sqNum = rowStart + colValue
-        return board.push( <Square key={3+sqNum} squares={props.squares[sqNum]} onClick={() => props.onClick(sqNum)}/>)
+        return board.push(
+          <Square 
+            key={"square"+sqNum} 
+            squares={props.squares[sqNum]} 
+            onClick={() => props.onClick(sqNum)}
+          />
+        )
       })
     })
     return board
@@ -39,6 +53,9 @@ function Game() {
   const [stepNumber, setStepNumber] = useState(0);
   const [xIsNext, setXIsNext] = useState(true);
   const [coordinate, setCoordinate] = useState([Array(2).fill(null)])
+  const [isAssending,setIsAssending] = useState(true)
+  const current = history[stepNumber];
+  const winner = calculateWinner(current);
   const handleClick = i => {
     if (calculateWinner(current) || current[i]) {
       //if winner then do not allow anymore play
@@ -63,8 +80,6 @@ function Game() {
     //if the number we are changing to is even then x is next
     setXIsNext(step % 2 === 0);
   };
-  const current = history[stepNumber];
-  const winner = calculateWinner(current);
   const moves = history.map((step, move) => {
     const btnDesc = move ? `Go to move #${move} (${coordinate[move]})` : `Go to game start`;
     let currentStyle;
@@ -73,7 +88,7 @@ function Game() {
       : (currentStyle = { fontWeight: "normal" });
 
     return (
-      <li key={move}>
+      <li key={"GoTo" + move}>
         <button onClick={() => jumpTo(move)} style={currentStyle}>{btnDesc}</button>
       </li>
     );
@@ -85,15 +100,26 @@ function Game() {
   } else {
     status = `Next player: ${xIsNext ? "X" : "O"}`;
   }
-
+  const reorder = () => {
+    setIsAssending(!isAssending)
+  }
   return (
     <div className="game">
       <div className="game-board">
-        <Board squares={current} onClick={i => handleClick(i)} />
+        <Board 
+          squares={current} 
+          onClick={i => handleClick(i)} 
+        />
       </div>
       <div className="game-info">
         <div>{status}</div>
-        <ol>{moves}</ol>
+        <div>
+          <OrderButton 
+            reorderClick={() => reorder()} 
+            btnText={isAssending ? "Set decending" : "Set Assending"}
+          />
+          </div>
+        <ol reversed={isAssending ? false : true}>{isAssending ? moves : moves.slice().reverse()}</ol>
       </div>
     </div>
   );
