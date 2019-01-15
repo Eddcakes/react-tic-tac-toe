@@ -57,9 +57,8 @@ function Game() {
   const current = history[stepNumber];
   const winner = calculateWinner(current);
   const handleClick = i => {
-    if (calculateWinner(current) || current[i]) {
-      //if winner then do not allow anymore play
-      //current[i] is here to prevent overwriting squares
+    if (winner || current[i]) {
+      //if winner or same square then do not allow anymore play
       return;
     }
     const curBoard = current.slice();
@@ -92,12 +91,17 @@ function Game() {
       </li>
     );
   });
-
   let status;
+  let boardSqs = document.getElementsByClassName('square')
+  //is this the best way to set a style for winner and remove it ?
   if (winner) {
-    status = `Winner: ${winner}`;
+    status = `Winner: ${winner.icon}`;
+    winner.winningMove.map( (v) => boardSqs[v].style.background = 'yellow' )
   } else {
     status = `Next player: ${xIsNext ? "X" : "O"}`;
+    for (let boardSq of boardSqs){
+      boardSq.style.background = 'none'
+    }
   }
   const reorder = () => {
     setIsAssending(!isAssending)
@@ -148,7 +152,7 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return {icon: squares[a], winningMove: lines[i]};
     }
   }
   return null;
