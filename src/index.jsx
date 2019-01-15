@@ -97,7 +97,9 @@ function Game({size, ...props}) {
   if (winner) {
     status = `Winner: ${winner.icon}`;
     winner.winningMove.map( (v) => boardSqs[v].style.background = 'yellow' )
-  } else {
+  }else if (moves.length > size * size){ //size*size is all the available box's so we know it is draw
+    status = `This game is a draw!!!`
+  }else{
     status = `Next player: ${xIsNext ? "X" : "O"}`;
     for (let boardSq of boardSqs){
       boardSq.style.background = 'none'
