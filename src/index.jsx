@@ -18,7 +18,7 @@ function Square(props) {
   );
 }
 
-function Board(props) {
+function Board({squares, onClick, size,...props}) {
   const renderGameBoard = boardSize =>{
     let row = new Array(boardSize)
     let col = new Array(boardSize)
@@ -33,8 +33,8 @@ function Board(props) {
         return board.push(
           <Square 
             key={"square"+sqNum} 
-            squares={props.squares[sqNum]} 
-            onClick={() => props.onClick(sqNum)}
+            squares={squares[sqNum]} 
+            onClick={() => onClick(sqNum)}
           />
         )
       })
@@ -43,12 +43,12 @@ function Board(props) {
   }
   return (
     <div>
-      {renderGameBoard(3)}
+      {renderGameBoard(size)}
     </div>
   );
 }
 
-function Game() {
+function Game({size, ...props}) {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [stepNumber, setStepNumber] = useState(0);
   const [xIsNext, setXIsNext] = useState(true);
@@ -72,7 +72,7 @@ function Game() {
       curBoard[i] === lastBoard[i] ? value = null : value = curBoard[i]
       return value
     })
-    setCoordinate([...coordinate.slice(0, stepNumber + 1), calculateCoord(theMove)])
+    setCoordinate([...coordinate.slice(0, stepNumber + 1), calculateCoord(size, theMove)])
   };
   const jumpTo = step => {
     setStepNumber(step);
@@ -97,7 +97,9 @@ function Game() {
   if (winner) {
     status = `Winner: ${winner.icon}`;
     winner.winningMove.map( (v) => boardSqs[v].style.background = 'yellow' )
-  } else {
+  }else if (moves.length > size * size){ //size*size is all the available box's so we know it is draw
+    status = `This game is a draw!!!`
+  }else{
     status = `Next player: ${xIsNext ? "X" : "O"}`;
     for (let boardSq of boardSqs){
       boardSq.style.background = 'none'
@@ -120,7 +122,8 @@ function Game() {
       <div className="game-board">
         <Board 
           squares={current} 
-          onClick={i => handleClick(i)} 
+          onClick={i => handleClick(i)}
+          size={size}
         />
       </div>
       <div className="game-info">
@@ -138,7 +141,7 @@ function Game() {
 }
 
 function calculateWinner(squares) {
-  //all winning moves
+  //all winning moves -> a way to do this automagically
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -158,8 +161,7 @@ function calculateWinner(squares) {
   return null;
 }
 
-function calculateCoord(arr) {
-  const size = 3
+function calculateCoord(size, arr) {
   let count = 0
   let location = []
   for (let i = 0; i < size; i++) {
@@ -175,4 +177,4 @@ function calculateCoord(arr) {
 }
 // ========================================
 
-ReactDOM.render(<Game />, document.getElementById("root"));
+ReactDOM.render(<Game size={3}/>, document.getElementById("root"));
