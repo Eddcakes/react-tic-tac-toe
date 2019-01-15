@@ -18,7 +18,7 @@ function Square(props) {
   );
 }
 
-function Board(props) {
+function Board({squares, onClick, size,...props}) {
   const renderGameBoard = boardSize =>{
     let row = new Array(boardSize)
     let col = new Array(boardSize)
@@ -33,8 +33,8 @@ function Board(props) {
         return board.push(
           <Square 
             key={"square"+sqNum} 
-            squares={props.squares[sqNum]} 
-            onClick={() => props.onClick(sqNum)}
+            squares={squares[sqNum]} 
+            onClick={() => onClick(sqNum)}
           />
         )
       })
@@ -43,7 +43,7 @@ function Board(props) {
   }
   return (
     <div>
-      {renderGameBoard(3)}
+      {renderGameBoard(size)}
     </div>
   );
 }
@@ -120,7 +120,8 @@ function Game() {
       <div className="game-board">
         <Board 
           squares={current} 
-          onClick={i => handleClick(i)} 
+          onClick={i => handleClick(i)}
+          size={3}
         />
       </div>
       <div className="game-info">
@@ -138,7 +139,7 @@ function Game() {
 }
 
 function calculateWinner(squares) {
-  //all winning moves
+  //all winning moves -> a way to do this automagically
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
