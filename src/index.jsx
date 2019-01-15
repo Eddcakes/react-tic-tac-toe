@@ -48,7 +48,7 @@ function Board({squares, onClick, size,...props}) {
   );
 }
 
-function Game() {
+function Game({size, ...props}) {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [stepNumber, setStepNumber] = useState(0);
   const [xIsNext, setXIsNext] = useState(true);
@@ -72,7 +72,7 @@ function Game() {
       curBoard[i] === lastBoard[i] ? value = null : value = curBoard[i]
       return value
     })
-    setCoordinate([...coordinate.slice(0, stepNumber + 1), calculateCoord(theMove)])
+    setCoordinate([...coordinate.slice(0, stepNumber + 1), calculateCoord(size, theMove)])
   };
   const jumpTo = step => {
     setStepNumber(step);
@@ -121,7 +121,7 @@ function Game() {
         <Board 
           squares={current} 
           onClick={i => handleClick(i)}
-          size={3}
+          size={size}
         />
       </div>
       <div className="game-info">
@@ -159,8 +159,7 @@ function calculateWinner(squares) {
   return null;
 }
 
-function calculateCoord(arr) {
-  const size = 3
+function calculateCoord(size, arr) {
   let count = 0
   let location = []
   for (let i = 0; i < size; i++) {
@@ -176,4 +175,4 @@ function calculateCoord(arr) {
 }
 // ========================================
 
-ReactDOM.render(<Game />, document.getElementById("root"));
+ReactDOM.render(<Game size={3}/>, document.getElementById("root"));
