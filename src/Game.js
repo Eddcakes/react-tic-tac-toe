@@ -1,52 +1,7 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
-import "./styles.css";
-
-function OrderButton({reorderClick, btnText, ...props}){
-  return (
-    <button onClick={reorderClick}> 
-      {btnText}
-    </button>
-  )
-}
-
-function Square(props) {
-  return (
-    <button className="square" onClick={props.onClick}>
-      {props.squares}
-    </button>
-  );
-}
-
-function Board({squares, onClick, size,...props}) {
-  const renderGameBoard = boardSize =>{
-    let row = new Array(boardSize)
-    let col = new Array(boardSize)
-    row = row.fill(0).map( (x, i) => x = i )
-    col = col.fill(0).map( (x, i) => x = i )
-    const board = []
-    row.map( rowNum => {
-      board.push(<div key={rowNum} className="board-row"> </div>)
-      return col.map( colValue => {
-        let rowStart = rowNum * boardSize
-        let sqNum = rowStart + colValue
-        return board.push(
-          <Square 
-            key={"square"+sqNum} 
-            squares={squares[sqNum]} 
-            onClick={() => onClick(sqNum)}
-          />
-        )
-      })
-    })
-    return board
-  }
-  return (
-    <div>
-      {renderGameBoard(size)}
-    </div>
-  );
-}
+import React, {useState} from "react";
+import OrderButton from "./components/OrderButton";
+import Board from "./components/Board";
+import {calculateCoord, calculateWinner} from "./utils/utils";
 
 function Game({size, ...props}) {
   const [history, setHistory] = useState([Array(9).fill(null)]);
@@ -118,6 +73,8 @@ function Game({size, ...props}) {
     isReversed = true
   }
   return (
+    <>
+    <h1>React tic-tac-toe with hooks</h1>
     <div className="game">
       <div className="game-board">
         <Board 
@@ -137,44 +94,8 @@ function Game({size, ...props}) {
         <ol reversed={isReversed}>{movesByOrder}</ol>
       </div>
     </div>
+    </>
   );
 }
 
-function calculateWinner(squares) {
-  //all winning moves -> a way to do this automagically
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return {icon: squares[a], winningMove: lines[i]};
-    }
-  }
-  return null;
-}
-
-function calculateCoord(size, arr) {
-  let count = 0
-  let location = []
-  for (let i = 0; i < size; i++) {
-      arr[i] = []
-    for (let j = 0; j < size; j++, count++) {
-        arr[i][j] = arr[count]
-        if (arr[count] !== null){
-          location = [i+1,j+1]
-        }
-    }
-  }
-    return location
-}
-// ========================================
-
-ReactDOM.render(<Game size={3}/>, document.getElementById("root"));
+export default Game
