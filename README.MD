@@ -1,7 +1,10 @@
 # react-tic-tac-toe
 Created with CodeSandbox
 
-Recreated the reacts tutorial using hooks.
+Recreated the react tic-tac-toe tutorial using hooks.
+
+## demo 
+![](demo.gif)
 
 ## Improvements
 - [x] Display the location for each move in the format(col, row) in the move history list.
