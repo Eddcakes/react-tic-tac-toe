@@ -14,7 +14,8 @@ function Board({squares, onClick, size,...props}) {
         let rowStart = rowNum * boardSize
         let sqNum = rowStart + colValue
         return board.push(
-          <Square 
+          <Square
+            sqId={sqNum}
             key={`square${sqNum}`} 
             squares={squares[sqNum]} 
             onClick={() => onClick(sqNum)}

@@ -1,9 +1,15 @@
 import React from "react";
 
-function Square(props) {
+function Square({sqId, squares, onClick}) {
   return (
-    <button className="square" onClick={props.onClick}>
-      {props.squares}
+    <button
+      id={`zone${sqId}`}
+      className="square"
+      type="button"
+      onClick={onClick}
+      data-testid={`zone${sqId}`}
+    >
+      {squares}
     </button>
   );
 }
