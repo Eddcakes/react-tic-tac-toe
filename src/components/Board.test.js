@@ -4,7 +4,6 @@ import Board from "./Board";
 import {
   render,
   cleanup,
-  getByTestId,
   fireEvent,
 } from "@testing-library/react"
 
