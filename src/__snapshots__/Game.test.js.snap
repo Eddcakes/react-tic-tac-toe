@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<DocumentFragment>
+  <h1>
+    React tic-tac-toe with hooks
+  </h1>
+  <div
+    class="game"
+  >
+    <div
+      class="game-board"
+    >
+      <div>
+        <div
+          class="board-row"
+        >
+           
+        </div>
+        <button
+          class="square"
+          data-testid="zone0"
+          id="zone0"
+          type="button"
+        />
+        <button
+          class="square"
+          data-testid="zone1"
+          id="zone1"
+          type="button"
+        />
+        <button
+          class="square"
+          data-testid="zone2"
+          id="zone2"
+          type="button"
+        />
+        <div
+          class="board-row"
+        >
+           
+        </div>
+        <button
+          class="square"
+          data-testid="zone3"
+          id="zone3"
+          type="button"
+        />
+        <button
+          class="square"
+          data-testid="zone4"
+          id="zone4"
+          type="button"
+        />
+        <button
+          class="square"
+          data-testid="zone5"
+          id="zone5"
+          type="button"
+        />
+        <div
+          class="board-row"
+        >
+           
+        </div>
+        <button
+          class="square"
+          data-testid="zone6"
+          id="zone6"
+          type="button"
+        />
+        <button
+          class="square"
+          data-testid="zone7"
+          id="zone7"
+          type="button"
+        />
+        <button
+          class="square"
+          data-testid="zone8"
+          id="zone8"
+          type="button"
+        />
+      </div>
+    </div>
+    <div
+      class="game-info"
+    >
+      <div>
+        Next player: X
+      </div>
+      <div>
+        <button>
+          Set decending
+        </button>
+      </div>
+      <ol>
+        <li>
+          <button
+            style="font-weight: bold;"
+          >
+            Go to game start
+          </button>
+        </li>
+      </ol>
+    </div>
+  </div>
+</DocumentFragment>
+`;

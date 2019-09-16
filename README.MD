@@ -14,5 +14,6 @@ Recreated the react tic-tac-toe tutorial using hooks.
 - [x] When someone wins, highlight the three squares that caused the win.
 - [x] When no one wins, display a message about the result being a draw.
 
+- [x] Added tests
   ___
 Original tutorial: https://reactjs.org/tutorial/tutorial.html
