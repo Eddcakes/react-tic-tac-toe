@@ -54,7 +54,6 @@ test("Allows user to set ascending/descending", () => {
   expect(liButtonsPost[4]).toHaveTextContent("Go to game start");
 });
 
-//test Go to #move
 it("Go to goes back in history", () => {
   const { queryAllByTestId, getAllByText } = render(
     <Game size={3}/>
@@ -67,23 +66,42 @@ it("Go to goes back in history", () => {
   fireEvent.click(squares[3]);
   const goToMove = getAllByText(/go to move/i);
   expect(goToMove).toHaveLength(4);
-  //expect(squares).toHaveTextContent(/x|o/i).toHaveLength(4);
-  const filledSqPre = getAllByText(/O|X/)
+  //Searching for only one character, we do not want to return "Next player: #"
+  const filledSqPre = getAllByText(/^O$|^X$/); 
   expect(filledSqPre).toHaveLength(4);
-  //its grabbing Next player: X too - i dont want this
-  //fireEvent.click(goToMove[2]);
-  //
+  fireEvent.click(goToMove[1]); //2nd go to button
+  const filledSqPost = getAllByText(/^O$|^X$/); 
+  expect(filledSqPost).toHaveLength(2);
 });
 
-//test winner
 it("3 in a row is winner", () => {
-  const {  } = render(
+  const { queryAllByTestId, getByText } = render(
     <Game size={3}/>
   );
+  const squares = queryAllByTestId(/zone/i);
+  fireEvent.click(squares[0]);
+  fireEvent.click(squares[1]);
+  fireEvent.click(squares[3]);
+  fireEvent.click(squares[4]);
+  fireEvent.click(squares[6]);
+  const winMsg = getByText(/winner/i);
+  expect(winMsg).toHaveTextContent("Winner: X");
 });
 
 it("full board with no winner is draw", () => {
-  const {  } = render(
+  const { queryAllByTestId, getByText } = render(
     <Game size={3}/>
   );
+  const squares = queryAllByTestId(/zone/i);
+  fireEvent.click(squares[0]); //x
+  fireEvent.click(squares[1]); //o
+  fireEvent.click(squares[2]); //x
+  fireEvent.click(squares[4]); //o
+  fireEvent.click(squares[3]); //x
+  fireEvent.click(squares[5]); //o
+  fireEvent.click(squares[7]); //x
+  fireEvent.click(squares[6]); //o
+  fireEvent.click(squares[8]); //x
+  const drawMsg = getByText(/draw/i);
+  expect(drawMsg).toHaveTextContent(/game is a draw/i);
 });
